@@ -4,8 +4,12 @@ const { DataBaseConnection } = require("./DB/dataBase");
 const { authService } = require("./Router/authService");
 const { notificationService } = require("./Router/notificationService");
 const bodyParser = require("body-parser");
+const { server } = require("./realTimeService/realTimeService");
+
 
 let app = express();
+
+
 dotenv.config();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,4 +24,7 @@ app.use("/api", notificationService);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running " + process.env.PORT);
+});
+server.listen(8085, () => {
+  console.log("Server is running " + 8085);
 });

@@ -1,4 +1,5 @@
 let express = require("express");
+let amqp = require('amqplib')
 const {
   jwtVerification,
 } = require("../authenticatVerification/authenticatVerify");
@@ -18,6 +19,12 @@ notificationService.post(
         read: false,
       });
       await notification.save();
+      
+      const conn = await amqp.connect('amqp://localhost');
+      const ch = await conn.createChannel();
+      await ch.assertQueue('notifications');
+      ch.sendToQueue('notifications', Buffer.from(JSON.stringify(notification)));
+
       res.status(201).json({
         status: true,
         message: "Successfull Notification created",
