@@ -16,7 +16,7 @@ let user = new mongoose.Schema({
   },
   connected: {
     type: Boolean,
-    required: true,
+    default: false,
   },
 });
 let userModel = new mongoose.model("User", user);
